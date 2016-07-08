@@ -15,6 +15,7 @@
         android:text="Coordinates: "
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/textView"
+        android:textColor="#000"
         />
 
     <Button
