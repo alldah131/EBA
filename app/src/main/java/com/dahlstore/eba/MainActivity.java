@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
     private TextView t;
     private LocationManager locationManager;
     private LocationListener listener;
+    public static final String TAG = "TAG";
 
 
     @Override
@@ -51,12 +52,18 @@ public class MainActivity extends Activity {
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                t.append("\n " + location.getLongitude() + " " + location.getLatitude());
+                String result = null;
                 Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
                 try {
                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude() , 1);
-                    t.append("\n " + String.valueOf(addresses));
+
+                    if(addresses != null && addresses.size() >0){
+                        Address address = addresses.get(0);
+                        result = address.getCountryName() + "\n " + address.getLocality()  + "\n " + address.getAddressLine(0); /*+ " " + address.getLocality();*/
+                        t.append("\n " + String.valueOf(result));
+                    }
                 } catch (IOException e) {
+                    Log.e(TAG, "Impossible to connect to Geocoder", e);
                     e.printStackTrace();
                 }
             }
