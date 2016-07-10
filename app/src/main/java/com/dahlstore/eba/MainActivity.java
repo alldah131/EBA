@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -19,6 +21,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -47,6 +52,13 @@ public class MainActivity extends Activity {
             @Override
             public void onLocationChanged(Location location) {
                 t.append("\n " + location.getLongitude() + " " + location.getLatitude());
+                Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude() , 1);
+                    t.append("\n " + String.valueOf(addresses));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
